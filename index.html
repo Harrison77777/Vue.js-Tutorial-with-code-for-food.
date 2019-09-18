@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Vue Js Tutorial</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="vuejs.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            .btn-style {padding: 0px 9px;}
+            .custom-font-size {
+             font-weight: 500;
+             font-size: 14px;
+            }
+        </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="container">
+            <div class="col-md-6 offset-3">
+                <div class="card card-body pt-4 mt-4">
+                    <div class="app-title-area">
+                        <h4>{{title}}</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="add-new-field-area">
+                            <form @submit.prevent="addItem">
+                                <input v-model="newItem" type="text" class="form-control form-control-sm">
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="bazar-list-area mt-2">
+                            <ul class="list-group list-unstyled ">
+                                <li v-for="(item, index) in items" :key="index" class="list-group-item ">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-8 custom-font-size">
+                                            <button @click="removeItem(index)" class="btn btn-xs btn-danger btn-style" type="button">-</button> {{item.name}} -
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="item.price">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-success mt-2">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            Total -
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            {{total}}.00 TK.
+                                        </div>
+                                    </div>
+                                     
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                title: 'Bazar List',
+                items: [
+                    { name: 'Rice', price: 100 },
+                    { name: 'Bagun', price: 50 },
+                    { name: 'Chosu', price: 20 },
+                ],
+                newItem: ''
+            },
+            computed:{
+                total(){
+                    let total = 0;
+                    this.items.forEach(item => {
+                        total+=parseFloat(item.price)
+                    });
+                    return total;
+                }
+            },
+            methods: {
+                addItem() {
+                    this.items.push({
+                        name: this.newItem,
+                        price: parseFloat(0.00)
+                    })
+                    this.newItem = ''
+                },
+                removeItem(index){
+                    this.items.splice(index, 1)
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
